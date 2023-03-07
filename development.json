@@ -1,0 +1,5 @@
+{
+    "uid": "app-revee-api",
+    "script": "server/server.js",
+    "sourceDir": "/home/ec2-user/app-revee-api"
+}

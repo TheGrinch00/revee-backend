@@ -1,0 +1,42 @@
+{
+  "name": "Zone",
+  "plural": "Zones",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "ZoneName": {
+      "type": "string",
+      "required": true
+    },
+    "ZoneAcronym": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "divisions": {
+      "type": "hasMany",
+      "model": "Division",
+      "foreignKey": "ZoneId"
+    }
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW"
+    }
+  ],
+  "methods": {}
+}

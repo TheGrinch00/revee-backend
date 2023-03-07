@@ -1,0 +1,36 @@
+{
+  "name": "locationLog",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "userID": {
+      "type": "number",
+      "required": true
+    },
+    "long": {
+      "type": "number",
+      "required": true,
+      "dataType": "decimal",
+      "precision": 15,
+      "scale": 6
+    },
+    "lat": {
+      "type": "number",
+      "required": true,
+      "dataType": "decimal",
+      "precision": 15,
+      "scale":6
+    },
+    "date": {
+      "type": "date",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

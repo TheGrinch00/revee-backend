@@ -1,0 +1,69 @@
+image: atlassian/default-image:2
+pipelines:
+  branches:
+    dev:
+    - step:
+        name: Docker image build and push
+        script:
+        - docker login -u $HARBOR_USER -p $HARBOR_PASSWORD core.harbor.cluster.jetop.com
+        - docker build -t core.harbor.cluster.jetop.com/revee-1/revee-api:$BITBUCKET_COMMIT .
+        - docker push core.harbor.cluster.jetop.com/revee-1/revee-api:$BITBUCKET_COMMIT
+        services: 
+        - docker
+    - step:
+        name: deploy
+        image: atlassian/pipelines-kubectl
+        script:
+        - echo $KUBE_CA | base64 -d > ca.crt
+        - echo "CA file stored"
+        - kubectl config set-credentials bitbucket-deployment --token=$KUBE_TOKEN
+        - echo "Credentials set"
+        - kubectl config set-cluster default --server=$KUBE_SERVER --certificate-authority=ca.crt
+        - echo "Cluster set"
+        - kubectl config set-context default --cluster=default --user=bitbucket-deployment
+        - echo "User set"
+        - kubectl config use-context default
+        - echo "Config set"
+        - echo "Authenticated, Deploying"
+        - kubectl -n $KUBE_NAMESPACE set image deployment/api api=core.harbor.cluster.jetop.com/revee-1/revee-api:$BITBUCKET_COMMIT
+    master:
+    - step:
+        name: Production - Build
+        script:
+        - npm install
+        - mv appspec.production.yml appspec.yml
+        - zip -r app.zip appspec.yml common package.json package-lock.json server revee-api.service scripts nginx.conf  # ignoro development.json perche' non viene usato forever ma un servizio di systemd, ignoro client perche' le api non hanno bisogno di esibire alcun contenuto
+        artifacts:
+        - app.zip
+    - step:
+        name: Production - Upload to S3
+        services:
+        - docker
+        script:
+        - pipe: atlassian/aws-code-deploy:0.2.7
+          variables:
+            COMMAND: upload
+            AWS_ACCESS_KEY_ID: ${PRODUCTION_AWS_ACCESS_KEY_ID}
+            AWS_SECRET_ACCESS_KEY: ${PRODUCTION_AWS_SECRET_ACCESS_KEY}
+            AWS_DEFAULT_REGION: ${PRODUCTION_AWS_DEFAULT_REGION}
+            APPLICATION_NAME: ${PRODUCTION_APPLICATION_NAME}
+            S3_BUCKET: ${PRODUCTION_S3_BUCKET}
+            ZIP_FILE: app.zip
+    - step:
+        name: Production - Hand over to CodeDeploy
+        services:
+        - docker
+        script:
+        - pipe: atlassian/aws-code-deploy:0.2.7
+          variables:
+            COMMAND: deploy
+            AWS_ACCESS_KEY_ID: ${PRODUCTION_AWS_ACCESS_KEY_ID}
+            AWS_SECRET_ACCESS_KEY: ${PRODUCTION_AWS_SECRET_ACCESS_KEY}
+            AWS_DEFAULT_REGION: ${PRODUCTION_AWS_DEFAULT_REGION}
+            APPLICATION_NAME: ${PRODUCTION_APPLICATION_NAME}
+            DEPLOYMENT_GROUP: ${PRODUCTION_DEPLOYMENT_GROUP}
+            S3_BUCKET: ${PRODUCTION_S3_BUCKET}
+            IGNORE_APPLICATION_STOP_FAILURES: 'true'
+            FILE_EXISTS_BEHAVIOR: OVERWRITE
+            WAIT: 'true'
+

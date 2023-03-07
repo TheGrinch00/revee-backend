@@ -1,0 +1,12 @@
+[Unit]
+Description= Revee backend
+After=network-online.target
+
+[Service]
+Restart=on-failure
+Environment="NODE_ENV=production"
+WorkingDirectory=/opt/api
+ExecStart=/usr/bin/node /opt/api/server/server.js
+
+[Install]
+WantedBy=multi-user.target

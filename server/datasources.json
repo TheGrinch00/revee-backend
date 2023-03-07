@@ -1,0 +1,22 @@
+{
+  "db": {
+    "name": "db",
+    "connector": "memory"
+  },
+  "db-revee": {
+    "host": "cluster.jetop.com",
+    "port": 30306,
+    "database": "appreveedb",
+    "password": "Praticamentefinit0",
+    "name": "db-revee",
+    "user": "apprevee",
+    "connector": "mysql"
+  },
+  "storage": {
+    "name": "storage",
+    "connector": "loopback-component-storage",
+    "provider": "filesystem",
+    "root": "./storage",
+    "nameConflict": "makeUnique"
+  }
+}

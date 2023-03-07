@@ -1,0 +1,128 @@
+{
+  "_meta": {
+    "sources": [
+      "loopback/common/models",
+      "loopback/server/models",
+      "../common/models",
+      "./models"
+    ],
+    "mixins": [
+      "loopback/common/mixins",
+      "loopback/server/mixins",
+      "../node_modules/loopback-ds-timestamp-mixin",
+      "../common/mixins",
+      "./mixins"
+    ]
+  },
+  "AccessToken": {
+    "dataSource": "db-revee",
+    "public": false,
+    "relations": {
+      "user": {
+        "type": "belongsTo",
+        "model": "Member"
+      }
+    }
+  },
+  "ACL": {
+    "dataSource": "db-revee",
+    "public": false
+  },
+  "RoleMapping": {
+    "dataSource": "db-revee",
+    "public": false,
+    "options": {
+      "strictObjectIDCoercion": true
+    }
+  },
+  "Role": {
+    "dataSource": "db-revee",
+    "public": false
+  },
+  "Member": {
+    "dataSource": "db-revee",
+    "public": true,
+    "relations": {
+      "accessTokens": {
+        "type": "hasMany",
+        "model": "AccessToken"
+      }
+    }
+  },
+  "FacilityType": {
+    "dataSource": "db-revee",
+    "public": true
+  },
+  "Employment": {
+    "dataSource": "db-revee",
+    "public": true
+  },
+  "Facility": {
+    "dataSource": "db-revee",
+    "public": true
+  },
+  "Zone": {
+    "dataSource": "db-revee",
+    "public": true
+  },
+  "Division": {
+    "dataSource": "db-revee",
+    "public": true
+  },
+  "AllowedDivision": {
+    "dataSource": "db-revee",
+    "public": true
+  },
+  "Ward": {
+    "dataSource": "db-revee",
+    "public": true
+  },
+  "Employee": {
+    "dataSource": "db-revee",
+    "public": true
+  },
+  "Category": {
+    "dataSource": "db-revee",
+    "public": true
+  },
+  "Position": {
+    "dataSource": "db-revee",
+    "public": true
+  },
+  "Visit": {
+    "dataSource": "db-revee",
+    "public": true
+  },
+  "Product": {
+    "dataSource": "db-revee",
+    "public": true
+  },
+  "MemberNote": {
+    "dataSource": "db-revee",
+    "public": true
+  },
+  "ProductVisit": {
+    "dataSource": "db-revee",
+    "public": true
+  },
+  "Attachment": {
+    "dataSource": "storage",
+    "public": true
+  },
+  "storage": {
+    "dataSource": "storage",
+    "public": true
+  },
+  "changeRq": {
+    "dataSource": "db-revee",
+    "public": true
+  },
+  "locationLog": {
+    "dataSource": "db-revee",
+    "public": true
+  },
+  "devicesList": {
+    "dataSource": "db-revee",
+    "public": true
+  }
+}

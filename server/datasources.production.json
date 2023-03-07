@@ -1,0 +1,22 @@
+{
+  "db": {
+    "name": "db",
+    "connector": "memory"
+  },
+  "db-revee": {
+    "host": "database-revee.chphzgwnuxfs.us-east-2.rds.amazonaws.com",
+    "port": 3306,
+    "database": "appreveedb",
+    "password": "EGeFj4uJ0bNiJ4QtFWme",
+    "name": "db-revee",
+    "user": "admin",
+    "connector": "mysql"
+  },
+  "storage": {
+    "name": "storage",
+    "connector": "loopback-component-storage",
+    "provider": "filesystem",
+    "root": "/mnt/storage",
+    "nameConflict": "makeUnique"
+  }
+}

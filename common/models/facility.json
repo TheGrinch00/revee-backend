@@ -1,0 +1,90 @@
+{
+  "name": "Facility",
+  "plural": "Facilities",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "FacilityName": {
+      "type": "string",
+      "required": true
+    },
+    "TypeId": {
+      "type": "number",
+      "required": true
+    },
+    "DivisionId": {
+      "type": "number",
+      "required": true
+    },
+    "PhoneNumber": {
+      "type": "string"
+    },
+    "Email": {
+      "type": "string"
+    },
+    "Website": {
+      "type": "string"
+    },
+    "Street": {
+      "type": "string"
+    },
+    "HouseNumber": {
+      "type": "string"
+    },
+    "PostalCode": {
+      "type": "string"
+    },
+    "Disabled": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "mixins": {
+    "TimeStamp" : true
+  },
+  "validations": [],
+  "relations": {
+    "type": {
+      "type": "belongsTo",
+      "model": "FacilityType",
+      "foreignKey": "TypeId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "division": {
+      "type": "belongsTo",
+      "model": "Division",
+      "foreignKey": "DivisionId",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "positions": {
+      "type": "hasMany",
+      "model": "Position",
+      "foreignKey": "FacilityId",
+      "options": {
+        "nestRemoting": true
+      }
+    }
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY"
+    },
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW"
+    }
+  ],
+  "methods": {}
+}

@@ -1,0 +1,26 @@
+{
+  "containerDefinitions": [
+    {
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "secretOptions": null,
+        "options": {
+          "awslogs-group": "/ecs/revee2-backend-task",
+          "awslogs-region": "us-east-2",
+          "awslogs-stream-prefix": "ecs"
+        }
+      },
+      "portMappings": [
+        {
+          "hostPort": 3000,
+          "containerPort": 3000
+        }
+      ],
+      "memory": 450,
+      "memoryReservation": null,
+      "image": "968744984630.dkr.ecr.us-east-2.amazonaws.com/revee2-backend-repository:latest",
+      "name": "revee2-backend-container"
+    }
+  ],
+  "family": "revee2-backend-task2"
+}

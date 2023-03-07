@@ -1,0 +1,18 @@
+version: 0.0
+os: linux
+files:
+  - source: /revee-api.service
+    destination: /lib/systemd/system/
+  - source: nginx.conf
+    destination: /etc/nginx/
+  - source: /
+    destination: /opt/api
+hooks:
+  ApplicationStop:
+    - location: /scripts/ApplicationStop.sh
+      timeout: 10
+      runas: root
+  ApplicationStart:
+    - location: /scripts/ApplicationStart.sh
+      timeout: 300
+      runas: root
